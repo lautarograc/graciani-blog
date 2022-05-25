@@ -1,0 +1,14 @@
+<% content_for :title, @post.title %>
+
+<%= link_to "← Home", root_path, class: "back-link" %>
+
+<article>
+  <span class="post-date"><%= @post.published_at.strftime("%B %-d, %Y") %></span>
+  <h1 class="post-title"><%= @post.title %></h1>
+
+  <div class="post-body">
+    <%= @post.body %>
+  </div>
+</article>
+
+<%= render "shared/about_me" %>
