@@ -62,6 +62,8 @@ Requires Docker and the `write:packages` scope on your `gh` token
 (`gh auth refresh -h github.com -s write:packages`):
 
 ```bash
+export KAMAL_REGISTRY_PASSWORD=$(gh auth token)
+export RAILS_MASTER_KEY=$(cat config/master.key)
 export GITHUB_CLIENT_ID=... GITHUB_CLIENT_SECRET=... ALLOWED_GITHUB_LOGIN=lautarograc
 export R2_ACCESS_KEY_ID=... R2_SECRET_ACCESS_KEY=...
 bin/kamal deploy
