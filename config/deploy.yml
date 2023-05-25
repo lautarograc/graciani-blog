@@ -9,11 +9,14 @@ servers:
   web:
     - 35.208.185.229
 
+# How long to wait for the new container to become healthy before giving up
+# (the e2-micro's weak, bursty CPU can make a cold Rails boot slow).
+deploy_timeout: 180
+
 # Enable SSL auto certification via Let's Encrypt (kamal-proxy).
 proxy:
   ssl: true
   host: blog.graciani.ar
-  deploy_timeout: 180
   healthcheck:
     path: /up
     timeout: 90
