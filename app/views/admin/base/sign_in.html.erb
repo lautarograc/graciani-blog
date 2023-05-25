@@ -3,5 +3,5 @@
 <%= render "shared/site_header" %>
 
 <p style="text-align: center; color: var(--fg-muted);">
-  <%= button_to "Sign in with GitHub", "/auth/github", class: "button", style: "margin-top: 1rem;" %>
+  <%= button_to "Sign in with GitHub", "/auth/github", class: "button", style: "margin-top: 1rem;", form: { data: { turbo: false } } %>
 </p>
