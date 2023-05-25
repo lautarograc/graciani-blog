@@ -13,6 +13,10 @@ servers:
 proxy:
   ssl: true
   host: blog.graciani.ar
+  healthcheck:
+    path: /up
+    timeout: 90
+    interval: 3
 
 # Where you keep your container images.
 registry:
