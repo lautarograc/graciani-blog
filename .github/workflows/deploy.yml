@@ -28,7 +28,11 @@ jobs:
           mkdir -p ~/.ssh
           echo "${{ secrets.DEPLOY_SSH_KEY }}" > ~/.ssh/id_ed25519
           chmod 600 ~/.ssh/id_ed25519
-          ssh-keyscan -H 35.208.185.229 >> ~/.ssh/known_hosts
+          cat >> ~/.ssh/config <<EOF
+          Host 35.208.185.229
+            StrictHostKeyChecking no
+            UserKnownHostsFile /dev/null
+          EOF
 
       - name: Deploy with Kamal
         env:
