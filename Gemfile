@@ -43,6 +43,8 @@ gem "image_processing", "~> 1.2"
 # S3-compatible client for Active Storage, used to talk to Cloudflare R2
 gem "aws-sdk-s3", require: false
 
+# Rich text editor for Action Text, built on Meta's Lexical framework [https://github.com/basecamp/lexxy]
+gem "lexxy"
 
 # GitHub SSO for the admin area
 gem "omniauth-github"
