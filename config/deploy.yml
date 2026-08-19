@@ -1,0 +1,61 @@
+# Name of your application. Used to uniquely configure containers.
+service: graciani-blog
+
+# Name of the container image.
+image: lautarograc/graciani-blog
+
+# Deploy to these servers.
+servers:
+  web:
+    - 35.208.185.229
+
+# Enable SSL auto certification via Let's Encrypt (kamal-proxy).
+proxy:
+  ssl: true
+  host: blog.graciani.ar
+
+# Where you keep your container images.
+registry:
+  server: ghcr.io
+  username: lautarograc
+  password:
+    - KAMAL_REGISTRY_PASSWORD
+
+# Inject ENV variables into containers (secrets come from .kamal/secrets).
+env:
+  secret:
+    - RAILS_MASTER_KEY
+    - GITHUB_CLIENT_ID
+    - GITHUB_CLIENT_SECRET
+    - ALLOWED_GITHUB_LOGIN
+    - R2_ACCESS_KEY_ID
+    - R2_SECRET_ACCESS_KEY
+  clear:
+    SOLID_QUEUE_IN_PUMA: true
+    R2_BUCKET: graciani-blog-attachments
+    R2_ENDPOINT: https://c6b7cf26feccfd727bc56948e138730f.r2.cloudflarestorage.com
+
+# Aliases are triggered with "bin/kamal <alias>".
+aliases:
+  console: app exec --interactive --reuse "bin/rails console"
+  shell: app exec --interactive --reuse "bash"
+  logs: app logs -f
+  dbc: app exec --interactive --reuse "bin/rails dbconsole --include-password"
+
+# Use a persistent storage volume for sqlite database files.
+volumes:
+  - "graciani-blog_storage:/rails/storage"
+
+# Bridge fingerprinted assets, like JS and CSS, between versions to avoid
+# hitting 404 on in-flight requests. Combines all files from new and old
+# version inside the asset_path.
+asset_path: /rails/public/assets
+
+# Configure the image builder.
+builder:
+  arch: amd64
+
+# Deploy as the dedicated, non-root "kamal" user provisioned on the VM
+# (member of the docker group, key-based SSH only).
+ssh:
+  user: kamal

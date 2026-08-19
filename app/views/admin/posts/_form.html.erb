@@ -1,0 +1,24 @@
+<%= form_with model: [ :admin, post ] do |form| %>
+  <% if post.errors.any? %>
+    <div style="color: #e88; margin-bottom: 1.5rem;">
+      <%= post.errors.full_messages.to_sentence %>
+    </div>
+  <% end %>
+
+  <div class="form-field">
+    <%= form.label :title %>
+    <%= form.text_field :title %>
+  </div>
+
+  <div class="form-field">
+    <%= form.label :published_at, "Publish at (blank = draft)" %>
+    <%= form.datetime_field :published_at %>
+  </div>
+
+  <div class="form-field">
+    <%= form.label :body %>
+    <%= form.rich_text_area :body %>
+  </div>
+
+  <%= form.submit class: "button" %>
+<% end %>

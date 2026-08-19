@@ -1,0 +1,16 @@
+<% content_for :title, "Lautaro Graciani" %>
+
+<%= render "shared/site_header" %>
+
+<% if @posts.any? %>
+  <ul class="post-list">
+    <% @posts.each do |post| %>
+      <li class="post-list__item">
+        <span class="post-list__date"><%= post.published_at.strftime("%B %-d, %Y") %></span>
+        <h2 class="post-list__title"><%= link_to post.title, post_path(post) %></h2>
+      </li>
+    <% end %>
+  </ul>
+<% else %>
+  <p class="post-list__empty">No posts yet.</p>
+<% end %>

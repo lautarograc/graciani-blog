@@ -1,0 +1,21 @@
+<% content_for :title, "Posts – Admin" %>
+
+<h1 class="post-title" style="font-size: 1.5rem;">Posts</h1>
+
+<% if @posts.any? %>
+  <ul class="admin-post-list">
+    <% @posts.each do |post| %>
+      <li class="admin-post-list__item">
+        <div>
+          <%= link_to post.title, edit_admin_post_path(post) %>
+          <div class="admin-post-list__meta">
+            <%= post.published? ? "Published #{post.published_at.strftime('%b %-d, %Y')}" : "Draft" %>
+          </div>
+        </div>
+        <%= button_to "Delete", admin_post_path(post), method: :delete, data: { turbo_confirm: "Delete this post?" }, form: { style: "display:inline" } %>
+      </li>
+    <% end %>
+  </ul>
+<% else %>
+  <p class="post-list__empty">No posts yet. <%= link_to "Write one", new_admin_post_path %>.</p>
+<% end %>
