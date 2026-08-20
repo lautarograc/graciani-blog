@@ -37,11 +37,12 @@ body {
 }
 
 .site-header__avatar {
+  display: block;
   width: 64px;
   height: 64px;
+  margin: 0 auto 1rem;
   border-radius: 50%;
   object-fit: cover;
-  margin-bottom: 1rem;
   background: var(--bg-elevated);
 }
 
