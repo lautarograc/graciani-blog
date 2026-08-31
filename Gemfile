@@ -50,6 +50,12 @@ gem "lexxy"
 gem "omniauth-github"
 gem "omniauth-rails_csrf_protection"
 
+# Visit/event tracking for the admin analytics dashboard, with built-in bot filtering
+gem "ahoy_matey"
+
+# IP -> country lookup for visit geocoding
+gem "geocoder"
+
 group :development, :test do
   # See https://guides.rubyonrails.org/debugging_rails_applications.html#debugging-with-the-debug-gem
   gem "debug", platforms: %i[ mri windows ], require: "debug/prelude"

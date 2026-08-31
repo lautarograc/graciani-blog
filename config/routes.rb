@@ -9,6 +9,7 @@ Rails.application.routes.draw do
 
   namespace :admin do
     resources :posts
+    resource :analytics, only: :show, controller: "analytics"
     root to: "posts#index"
   end
 

@@ -21,7 +21,7 @@
     <%= javascript_importmap_tags %>
   </head>
 
-  <body>
+  <body data-controller="analytics" data-analytics-post-id-value="<%= @post&.id %>" data-analytics-post-title-value="<%= @post&.title %>">
     <div class="page">
       <%= yield %>
     </div>

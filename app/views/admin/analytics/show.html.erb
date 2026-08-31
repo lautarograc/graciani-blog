@@ -1,0 +1,122 @@
+<% content_for :title, "Analytics – Admin" %>
+
+<div class="analytics">
+<div class="analytics-header">
+  <h1 class="post-title" style="font-size: 1.5rem;">Analytics</h1>
+
+  <nav class="period-picker">
+    <% Admin::AnalyticsController::PERIODS.each_key do |period| %>
+      <%= link_to period == "all" ? "All time" : "#{period}d",
+            admin_analytics_path(period: period),
+            class: [ "period-picker__link", ("is-active" if period == @period) ] %>
+    <% end %>
+  </nav>
+</div>
+
+<p class="analytics-note">
+  Bots and crawlers are detected and excluded automatically — the numbers below are real visitors only.
+</p>
+
+<div class="stat-grid">
+  <div class="stat-tile">
+    <span class="stat-tile__value"><%= number_with_delimiter(@unique_visitors) %></span>
+    <span class="stat-tile__label">Unique visitors</span>
+  </div>
+  <div class="stat-tile">
+    <span class="stat-tile__value"><%= number_with_delimiter(@total_visits) %></span>
+    <span class="stat-tile__label">Visits</span>
+  </div>
+  <div class="stat-tile">
+    <span class="stat-tile__value"><%= format_engaged_duration(@engagement[:avg_seconds]) %></span>
+    <span class="stat-tile__label">Avg. time engaged</span>
+  </div>
+  <div class="stat-tile">
+    <span class="stat-tile__value"><%= @engagement[:avg_scroll_percent] %>%</span>
+    <span class="stat-tile__label">Avg. article scroll</span>
+  </div>
+</div>
+
+<section class="analytics-section">
+  <h2 class="analytics-section__title">Visits</h2>
+  <% max_visits = @visits_per_day.map(&:last).max.to_i %>
+  <div class="bar-chart">
+    <% @visits_per_day.each do |date, count| %>
+      <div class="bar-chart__bar" title="<%= date.strftime('%b %-d') %>: <%= count %>">
+        <span class="bar-chart__fill" style="height: <%= max_visits.zero? ? 0 : (count.to_f / max_visits * 100).round(1) %>%"></span>
+      </div>
+    <% end %>
+  </div>
+</section>
+
+<div class="analytics-columns">
+  <section class="analytics-section">
+    <h2 class="analytics-section__title">Countries</h2>
+    <% if @countries.any? %>
+      <ul class="stat-list">
+        <% @countries.each do |(country, country_code), count| %>
+          <li class="stat-list__item">
+            <span><%= country %> <span class="stat-list__muted"><%= country_code %></span></span>
+            <span class="stat-list__count"><%= count %></span>
+          </li>
+        <% end %>
+      </ul>
+    <% else %>
+      <p class="analytics-empty">No location data yet.</p>
+    <% end %>
+  </section>
+
+  <section class="analytics-section">
+    <h2 class="analytics-section__title">Traffic sources</h2>
+    <% if @sources.any? %>
+      <ul class="stat-list">
+        <% @sources.each do |source, count| %>
+          <li class="stat-list__item">
+            <span><%= source %></span>
+            <span class="stat-list__count"><%= count %></span>
+          </li>
+        <% end %>
+      </ul>
+    <% end %>
+
+    <% if @top_referrers.any? %>
+      <h3 class="analytics-section__subtitle">Top referrers</h3>
+      <ul class="stat-list">
+        <% @top_referrers.each do |domain, count| %>
+          <li class="stat-list__item">
+            <span><%= domain %></span>
+            <span class="stat-list__count"><%= count %></span>
+          </li>
+        <% end %>
+      </ul>
+    <% end %>
+  </section>
+</div>
+
+<section class="analytics-section">
+  <h2 class="analytics-section__title">Posts</h2>
+  <% if @top_posts.any? %>
+    <table class="analytics-table">
+      <thead>
+        <tr>
+          <th>Post</th>
+          <th>Sessions</th>
+          <th>Avg. time</th>
+          <th>Avg. scroll</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% @top_posts.each do |row| %>
+          <tr>
+            <td><%= row[:title] || "Post ##{row[:post_id]}" %></td>
+            <td><%= row[:count] %></td>
+            <td><%= format_engaged_duration(row[:avg_seconds]) %></td>
+            <td><%= row[:avg_scroll_percent] %>%</td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  <% else %>
+    <p class="analytics-empty">No article engagement recorded yet.</p>
+  <% end %>
+</section>
+</div>

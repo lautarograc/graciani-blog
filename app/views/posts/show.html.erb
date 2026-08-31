@@ -2,7 +2,7 @@
 
 <%= link_to "← Home", root_path, class: "back-link" %>
 
-<article>
+<article data-analytics-target="article">
   <span class="post-date"><%= @post.published_at.strftime("%B %-d, %Y") %></span>
   <h1 class="post-title"><%= @post.title %></h1>
 
